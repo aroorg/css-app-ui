@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef2.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <mat-icon *ngIf="status==='done'" aria-hidden="false" aria-label="search icon" class="icon-design">done
+    </mat-icon>
+    <p>{{message}}</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="bsModalRef2.hide();">{{closeBtnName}}</button>
+</div>

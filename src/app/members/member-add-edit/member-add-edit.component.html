@@ -1,0 +1,230 @@
+<form (ngSubmit)="onAddEditPerson(pAddEdit)" #pAddEdit="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{title}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="col">
+            <label for="labelForAddress">Member Information: </label>
+            <span class="help-block" *ngIf="(!Fname.valid && Fname.touched) || (!Lname.valid && Lname.touched)">First
+                Name and Last Name are required</span>
+        </div>
+        <div class="container">
+            <div class="row">
+            </div>
+            <div class="row">
+                <div class="col col-sm-2">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Title</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect01" name="titleSel" ngModel>
+                            <option *ngFor="let keys of ddTitle" value="{{keys.CD}}">{{keys.DSC}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col col-sm-10">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">First Middle and Last Name</span>
+                        </div>
+                        <input type="text" class="form-control" name="firstName" placeholder="Enter First Name" ngModel
+                            required #Fname="ngModel">
+                        <input type="text" class="form-control" name="middleName" placeholder="Enter Middle Name"
+                            ngModel>
+                        <input type="text" class="form-control" name="lastName" placeholder="Enter Last Name" ngModel
+                            required #Lname="ngModel">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="labelForAddress">Address</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-4">
+                    <div class="form-group">
+                        <textarea class="form-control" name="address" rows="3" placeholder="Enter Address"
+                            ngModel></textarea>
+                    </div>
+                </div>
+                <div class="col col-sm-8">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Area and Pincode</span>
+                        </div>
+                        <input type="text" class="form-control" name="area" placeholder="Enter area" ngModel>
+                        <input type="text" class="form-control" name="pincode" placeholder="Enter pincode" ngModel>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="labelForAddress">Contact Information</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-10">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Mobile, Landline and Email</span>
+                        </div>
+                        <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile Number" ngModel>
+                        <input type="text" class="form-control" name="lLine" placeholder="Enter Landline Number"
+                            ngModel>
+                        <input type="text" class="form-control" name="email" placeholder="Enter Email Address" email
+                            ngModel email>
+                    </div>
+                </div>
+                <div class="col col-sm-2"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="labelForAddress">Other Information</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelectGender">Gender</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelectGender" name="genderSel" ngModel>
+                            <option *ngFor="let keys of ddGender" value="{{keys.CD}}">{{keys.DSC}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelectGender">Birth Date</label>
+                        </div>
+                        <input type="text" name="dob" placeholder="Datepicker"
+                            class="form-control bs-calendar-container" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" bsDatepicker ngModel>
+                    </div>
+                </div>
+                <div class="col col-sm-2">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Height</span>
+                        </div>
+                        <input type="text" class="form-control" name="height" placeholder="height" ngModel>
+                    </div>
+                </div>
+                <div class="col col-sm-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Star and Rashi</span>
+                        </div>
+                        <input type="text" class="form-control" name="star" placeholder="Enter Star" ngModel>
+                        <input type="text" class="form-control" name="rashi" placeholder="Enter Rashi" ngModel>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="labelForAddress">Education, Employment and Other Informations</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelectstudent">Student</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelectstudent" name="studentSel" ngModel>
+                            <option *ngFor="let keys of ddIndicators" value="{{keys.CD}}">{{keys.DSC}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelectEdu">Education</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelectEdu" name="eduSel" ngModel>
+                            <option *ngFor="let keys of ddEducation" value="{{keys.CD}}">{{keys.DSC}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelectEmp">Employed</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelectEmp" name="empSel" ngModel>
+                            <option *ngFor="let keys of ddIndicators" value="{{keys.CD}}">{{keys.DSC}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelectOcc">Occupation</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelectOcc" name="occSel" ngModel>
+                            <option *ngFor="let keys of ddOccupation" value="{{keys.CD}}">{{keys.DSC}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelectMarStatus">Marital Status</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelectMarStatus" name="maritalStatusSel" ngModel>
+                            <option *ngFor="let keys of ddMaritalStatus" value="{{keys.CD}}">{{keys.DSC}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelectFamilyHead">Family Head?</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelectFamilyHead" name="famHeadSel" ngModel>
+                            <option *ngFor="let keys of ddIndicators" value="{{keys.CD}}">{{keys.DSC}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="labelForAddress">Additional Information</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Member Id</span>
+                        </div>
+                        <input type="text" class="form-control" name="memberId" placeholder="Member ID" ngModel>
+                    </div>
+                </div>
+                <div class="col col-sm-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelectMemberStatus">Member Status</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelectMemberStatus" name="memberStatus" ngModel>
+                            <option *ngFor="let keys of ddStatus" value="{{keys.CD}}">{{keys.DSC}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col col-sm-3">
+                    <button type="submit" class="btn btn-primary" [disabled]="!pAddEdit.valid">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onReset()">Reset</button>
+        <button type="button" class="btn btn-warning" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+    </div>
+</form>
