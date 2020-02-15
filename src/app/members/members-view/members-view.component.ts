@@ -15,7 +15,7 @@ import { MemberAddEditComponent } from '../member-add-edit/member-add-edit.compo
 })
 export class MembersViewComponent implements OnInit {
 
-  @ViewChild('mViewGrid', { static: false }) mViewGrid: AgGridAngular;
+  @ViewChild('mViewGrid') mViewGrid: AgGridAngular;
 
   hdrs: HttpHeaders = new HttpHeaders;
   params: HttpParams = new HttpParams();

@@ -16,7 +16,7 @@ import { map } from 'rxjs/operators'
   styleUrls: ['./member-add-edit.component.scss']
 })
 export class MemberAddEditComponent implements OnInit {
-  @ViewChild('pAddEdit', { static: false }) editForm: NgForm;
+  @ViewChild('pAddEdit') editForm: NgForm;
 
   headers: HttpHeaders = new HttpHeaders();
   params: HttpParams = new HttpParams();
