@@ -150,40 +150,40 @@ export class MembersViewComponent implements OnInit {
       initialState: {
         title: 'Add New Member',
         member: {
-          address: ''
-          , age: ''
-          , area: ''
-          , currentlyStudyingInd: 'NA'
-          , currentlyStudyingIndCd: 'NA'
+          address: null
+          , age: null
+          , area: null
+          , currentlyStudyingInd: 'SEL'
+          , currentlyStudyingIndCd: 'SEL'
           , dateOfBirth: null
-          , emailId: ''
-          , employed: ''
-          , employedCd: 'NA'
-          , firstName: ''
-          , gender: ''
-          , genderCd: 'NA'
-          , headOfFamily: ''
-          , headOfFamilyCd: 'NA'
-          , height: ''
-          , highestEducation: ''
-          , highestEducationCd: 'NA'
-          , landlineNo: ''
-          , lastName: ''
-          , maritalStatus: ''
-          , maritalStatusCd: 'NA'
-          , memberID: ''
-          , middleName: ''
-          , occupation: ''
-          , occupationCd: 'NA'
-          , personId: undefined
-          , phoneNo: ''
-          , pincode:''
-          , rashi: ''
-          , star: ''
-          , status: ''
-          , statusCd: 'NA'
-          , title: ''
-          , titleCd: 'NA'
+          , emailId: null
+          , employed: null
+          , employedCd: 'SEL'
+          , firstName: null
+          , gender: null
+          , genderCd: 'SEL'
+          , headOfFamily: null
+          , headOfFamilyCd: 'SEL'
+          , height: null
+          , highestEducation: null
+          , highestEducationCd: 'SEL'
+          , landlineNo: null
+          , lastName: null
+          , maritalStatus: null
+          , maritalStatusCd: 'SEL'
+          , memberID: null
+          , middleName: null
+          , occupation: null
+          , occupationCd: 'SEL'
+          , personId: null
+          , phoneNo: null
+          , pincode:null
+          , rashi: null
+          , star: null
+          , status: null
+          , statusCd: 'SEL'
+          , title: null
+          , titleCd: 'SEL'
         },
         ddTitle: this.title,
         ddGender: this.gender,

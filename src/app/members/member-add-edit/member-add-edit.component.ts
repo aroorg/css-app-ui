@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { ModalComponent } from 'src/app/core/common/modal/modal.component';
 
+import { map } from 'rxjs/operators'
+
 
 @Component({
   selector: 'app-member-add-edit',
@@ -83,10 +85,6 @@ export class MemberAddEditComponent implements OnInit {
     console.log(form)
     const value = form.value;
     console.log(form);
-
-
-
-
     let dateOB;
     if (value.dob == null) {
       dateOB = null;
@@ -125,15 +123,32 @@ export class MemberAddEditComponent implements OnInit {
     this.appDataService.sendPostRequest(
       AppConstants.baseUrl + AppConstants.personAddEditUrl
       , saveObj
-      , { headers: this.headers, params: this.params })
+      , { headers: this.headers, params: this.params }).pipe(map((data) => {
+        console.log(data)
+        if (data[1][0]['@output'] === 'Success')
+          return 'Success'
+        else
+          return data[1][0]['@output']
+      }))
       .subscribe(
         (response) => {
-          console.log(response);
-          const initialState = {
-            message: response[1][0]['@output'],
-            title: 'Success',
-            status: 'done'
-          };
+          var initialState = {};
+          if (response === 'Success') {
+            initialState = {
+              message: 'Data saved successfully!',
+              title: response,
+              status: 'done'
+            };
+            this.bsModalRef.hide();
+            // this.editForm.reset(this.originalValues);
+          }
+          else {
+            initialState = {
+              message: response,
+              title: 'Failed',
+              status: 'error'
+            };
+          }
           this.bsModalRef2 = this.modalService2.show(ModalComponent, { initialState });
           this.bsModalRef2.content.closeBtnName = 'Ok';
         },

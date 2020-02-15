@@ -42,10 +42,12 @@
             <div class="row">
                 <div class="col">
                     <label for="labelForAddress">Address</label>
+                    <span class="help-block"
+                                *ngIf="(!area.valid && area.touched) || (!pin.valid && pin.touched) ">Area and Pincode are Required Field</span>
                 </div>
             </div>
             <div class="row">
-                <div class="col col-sm-4">
+                <div class="col col-sm-4">  
                     <div class="form-group">
                         <textarea class="form-control" name="address" rows="3" placeholder="Enter Address"
                             ngModel></textarea>
@@ -56,8 +58,10 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Area and Pincode</span>
                         </div>
-                        <input type="text" class="form-control" name="area" placeholder="Enter area" ngModel>
-                        <input type="text" class="form-control" name="pincode" placeholder="Enter pincode" ngModel>
+                        <input type="text" class="form-control" name="area" placeholder="Enter area" ngModel required
+                            #area="ngModel">
+                        <input type="text" class="form-control" name="pincode" placeholder="Enter pincode" ngModel required
+                        #pin="ngModel">
                     </div>
                 </div>
             </div>
@@ -103,7 +107,8 @@
                             <label class="input-group-text" for="inputGroupSelectGender">Birth Date</label>
                         </div>
                         <input type="text" name="dob" placeholder="Datepicker"
-                            class="form-control bs-calendar-container" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" bsDatepicker ngModel>
+                            class="form-control bs-calendar-container" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                            bsDatepicker ngModel>
                     </div>
                 </div>
                 <div class="col col-sm-2">
