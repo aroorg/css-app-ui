@@ -1,11 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { AppDataService } from '../../core/services/app-data.service';
 import { AppConstants } from '../../core/constants/appConstants';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-
-import { MemberAddEditComponent } from '../member-add-edit/member-add-edit.component'
+import { DatePipe } from '@angular/common'
+import { MemberAddEditComponent } from '../member-add-edit/member-add-edit.component';
+import { DateRendererComponent } from '../../core/common/Ui/ag-grid/dateRenderer.Component';
+import { EditRendererComponent } from '../../core/common/Ui/ag-grid/editRenderer.Component';
+import { combineLatest, Subscription, forkJoin } from 'rxjs';
 
 
 @Component({
@@ -13,7 +16,7 @@ import { MemberAddEditComponent } from '../member-add-edit/member-add-edit.compo
   templateUrl: './members-view.component.html',
   styleUrls: ['./members-view.component.scss']
 })
-export class MembersViewComponent implements OnInit {
+export class MembersViewComponent implements OnInit, OnDestroy {
 
   @ViewChild('mViewGrid') mViewGrid: AgGridAngular;
 
@@ -31,12 +34,17 @@ export class MembersViewComponent implements OnInit {
   public status = [];
   public occupation = [];
   public searchName: string = '';
+  public frameworkComponents;
+  public context;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private appDataService: AppDataService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private changeDetection: ChangeDetectorRef
   ) {
     this.columnDefs = [
+      { headerName: 'Actions', field: 'action', cellRenderer: 'editRendererComponent' },
       { headerName: 'Title', field: 'title' },
       { headerName: 'First Name', field: 'firstName' },
       { headerName: 'Middle Name', field: 'middleName' },
@@ -48,7 +56,7 @@ export class MembersViewComponent implements OnInit {
       { headerName: 'Landline', field: 'landlineNo' },
       { headerName: 'Email', field: 'emailId' },
       { headerName: 'Gender', field: 'gender' },
-      { headerName: 'Date Of Birth', field: 'dateOfBirth' },
+      { headerName: 'Date Of Birth', field: 'dateOfBirth', cellRenderer: 'dateRendererComponent' },
       { headerName: 'Age', field: 'age' },
       { headerName: 'Height', field: 'height' },
       { headerName: 'Star Sign', field: 'star' },
@@ -63,9 +71,43 @@ export class MembersViewComponent implements OnInit {
       { headerName: 'Member Status', field: 'status' }
     ]
     this.rowData = [];
+    this.context = { componentParent: this };
+    this.frameworkComponents = { dateRendererComponent: DateRendererComponent,
+      editRendererComponent: EditRendererComponent }
   }
 
   ngOnInit() {
+    // forkJoin([ this.getDropDownValues1 (AppConstants.ddTitle),
+    //   this.getDropDownValues1 (AppConstants.ddGender),
+    //   this.getDropDownValues1 (AppConstants.ddEducation),
+    //   this.getDropDownValues1 (AppConstants.ddMaritalStatus),
+    //   this.getDropDownValues1 (AppConstants.ddIndicators),
+    //   this.getDropDownValues1 (AppConstants.ddStatus),
+    //   this.getDropDownValues1 (AppConstants.ddOccupation)])
+    //   .subscribe((data)=>{
+    //     if(data[0]){
+    //       this.title=data[0]['data']
+    //     }
+    //     if(data[1]){
+    //       this.gender=data[1]['data']
+    //     }
+    //     if(data[2]){
+    //       this.education=data[1]['data']
+    //     }
+    //     if(data[3]){
+    //       this.maritalStatus=data[1]['data']
+    //     }
+    //     if(data[4]){
+    //       this.indicators=data[1]['data']
+    //     }
+    //     if(data[5]){
+    //       this.status=data[1]['data']
+    //     }
+    //     if(data[6]){
+    //       this.occupation=data[1]['data']
+    //     }
+        
+    //   })
     //Get Title Dropdown
     this.getDropDownValues(AppConstants.ddTitle, (data) => {
       this.title = data
@@ -104,6 +146,15 @@ export class MembersViewComponent implements OnInit {
       }))
   }
 
+  getDropDownValues1(ddName: string) {
+   return this.appDataService.getDataFromService(
+      AppConstants.baseUrl + AppConstants.getDropdownUrl,
+      this.hdrs,
+      this.params.set(AppConstants.getDropdownParamName, ddName)
+    )
+  }
+
+
   onSearch() {
     // console.log(this.searchName)
     this.params = this.params.set('personName', this.searchName)
@@ -124,8 +175,38 @@ export class MembersViewComponent implements OnInit {
     this.searchName = '';
   }
 
+  methodFromParent(cell) {
+    const _combine = combineLatest(    
+      this.modalService.onHide
+    ).subscribe(() => this.changeDetection.markForCheck());
+    this.subscriptions.push(
+      this.modalService.onHide.subscribe((reason: string) => {
+       this.onSearch();
+       console.log('closed')
+      })
+    );
+    this.subscriptions.push(_combine);
+    const modalOption = {
+      initialState: {
+        title: 'Edit Values for ' + cell.firstName + ' ' + cell.lastName,
+        member: cell,
+        ddTitle: this.title,
+        ddGender: this.gender,
+        ddEducation: this.education,
+        ddMaritalStatus: this.maritalStatus,
+        ddIndicators: this.indicators,
+        ddOccupation: this.occupation,
+        ddStatus: this.status
+      },
+      class: 'modal-xl',
+      ignoreBackdropClick: true
+    }
+    this.bsModalRef = this.modalService.show(MemberAddEditComponent, modalOption);
+    this.bsModalRef.content.closeBtnName = 'Close';
+  }
 
   openEditModal() {
+    console.log(this.selectedRow)
     const modalOption = {
       initialState: {
         title: 'Edit Values for ' + this.selectedRow.firstName + ' ' + this.selectedRow.lastName,
@@ -177,7 +258,7 @@ export class MembersViewComponent implements OnInit {
           , occupationCd: 'SEL'
           , personId: null
           , phoneNo: null
-          , pincode:null
+          , pincode: null
           , rashi: null
           , star: null
           , status: null
@@ -205,5 +286,11 @@ export class MembersViewComponent implements OnInit {
     // console.log(this.title);
   }
 
-
+  ngOnDestroy(){
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
+    this.subscriptions = [];
+  }
 }
+

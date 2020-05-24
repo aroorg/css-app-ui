@@ -1,5 +1,5 @@
 export class AppConstants {
-    public static baseUrl: string = 'http://192.168.1.77:3000';
+    public static baseUrl: string = 'http://192.168.0.103:3000';
     public static personSearchUrl: string = '/person';
     public static personSearchParamName: string = 'personName';
     public static personAddEditUrl: string = '/savePerson';

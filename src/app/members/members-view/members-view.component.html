@@ -23,7 +23,10 @@
                 <div class="col col-md-10 border border-light no-gutters" style="padding:8px">
                     <ag-grid-angular #mViewGrid style="width: 100%; height: 100%; padding:0" class="ag-theme-balham"
                         [rowData]="rowData" [columnDefs]="columnDefs" rowSelection="single"
-                        (selectionChanged)="onSelectionChanged()">
+                        (selectionChanged)="onSelectionChanged()"
+                        [frameworkComponents]="frameworkComponents"
+                        [context]="context">
+                        
                     </ag-grid-angular>
                 </div>
             </div>

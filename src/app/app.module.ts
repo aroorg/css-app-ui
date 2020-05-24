@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/layouts/header/header.component';
-import {FormsModule} from '@angular/forms'
-import {MatIconModule} from '@angular/material/icon';
+import { FormsModule } from '@angular/forms'
+import { MatIconModule } from '@angular/material/icon';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { MembersViewComponent } from './members/members-view/members-view.component';
 import { HomePageComponent } from './home/home-page/home-page.component';
@@ -16,6 +16,10 @@ import { MemberAddEditComponent } from './members/member-add-edit/member-add-edi
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalComponent } from './core/common/modal/modal.component';
+import { DatePipe } from '@angular/common';
+
+import { DateRendererComponent } from './core/common/Ui/ag-grid/dateRenderer.Component';
+import { EditRendererComponent } from './core/common/Ui/ag-grid/editRenderer.Component'
 
 
 @NgModule({
@@ -25,7 +29,9 @@ import { ModalComponent } from './core/common/modal/modal.component';
     MembersViewComponent,
     HomePageComponent,
     MemberAddEditComponent,
-    ModalComponent
+    ModalComponent,
+    DateRendererComponent,
+    EditRendererComponent
   ],
   imports: [
     BrowserModule,
@@ -33,14 +39,14 @@ import { ModalComponent } from './core/common/modal/modal.component';
     MatIconModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-    AgGridModule.withComponents([MembersViewComponent]),
+    AgGridModule.withComponents([DateRendererComponent, EditRendererComponent]),
     HttpClientModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
-  entryComponents:[MemberAddEditComponent, ModalComponent]
+  entryComponents: [MemberAddEditComponent, ModalComponent]
 })
 export class AppModule { }

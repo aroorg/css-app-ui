@@ -3,10 +3,9 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AppDataService } from '../../core/services/app-data.service';
 import { AppConstants } from '../../core/constants/appConstants'
 import { NgForm } from '@angular/forms';
-import * as moment from 'moment';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { ModalComponent } from 'src/app/core/common/modal/modal.component';
-
+import { DatePipe } from '@angular/common'
 import { map } from 'rxjs/operators'
 
 
@@ -36,16 +35,17 @@ export class MemberAddEditComponent implements OnInit {
   constructor(
     public bsModalRef: BsModalRef,
     private appDataService: AppDataService,
-    private modalService2: BsModalService
+    private modalService2: BsModalService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
     console.log(this.member)
     let dateOB;
-    if (this.member['dateOfBirth'] == null) {
+    if (this.member['dateOfBirth'] === null) {
       dateOB = null;
     } else {
-      dateOB = moment(this.member['dateOfBirth']).format('DD-MM-YYYY');
+      dateOB = this.datePipe.transform(this.member['dateOfBirth'][0],'dd-MM-yyyy');
     }
     this.originalValues = {
       titleSel: this.member['titleCd'],
@@ -89,7 +89,7 @@ export class MemberAddEditComponent implements OnInit {
     if (value.dob == null) {
       dateOB = null;
     } else {
-      dateOB = moment(value.dob).format('YYYY-MM-DD');
+      dateOB = this.datePipe.transform(value.dob,'yyyy-MM-dd');
     }
     let saveObj = {
       personId: this.member['personId'],
